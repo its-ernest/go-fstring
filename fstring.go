@@ -1,4 +1,3 @@
-// Package fstring provides Python-style f-string interpolation using maps.
 package fstring
 
 import (
@@ -7,10 +6,8 @@ import (
 	"regexp"
 )
 
-// F is the f-string context. Stateless in v1.
+// F is the f-string context.
 type F struct{}
-
-// New returns a new F instance.
 func New() *F {
 	return &F{}
 }
@@ -21,7 +18,7 @@ func (f *F) Str(template string, vars map[string]any) string {
 	return format(template, vars)
 }
 
-// format does the actual replacement
+// format() does the actual replacement
 func format(template string, vars map[string]any) string {
 	re := regexp.MustCompile(`\{(\w+)\}`)
 	var buf bytes.Buffer
@@ -40,7 +37,8 @@ func format(template string, vars map[string]any) string {
 		if val, ok := vars[key]; ok {
 			buf.WriteString(fmt.Sprint(val))
 		} else {
-			buf.WriteString("{" + key + "}") // leave as-is if missing
+			// leave as-is if missing
+			buf.WriteString("{" + key + "}")
 		}
 
 		lastIndex = m[1]
